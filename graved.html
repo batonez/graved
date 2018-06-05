@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Graph editor</title>
+    <link rel="stylesheet" type="text/css" href="ui.css"/>
+  </head>
+  <body oncontextmenu="return false;">
+    <table class="layout">
+    <tr>
+      <td class="canvas-td"><canvas id='main-canvas'>Canvas has failed to load.</canvas></td>
+      <td style="width: 300px">
+        <h2>Graph Editor</h2>
+        <div id="controls">
+          <div id="main-controls">
+            <fieldset>
+              <input type="checkbox" id="show-weights"/><label for="show-weights">Show weights</label>
+            </fieldset>
+
+            <fieldset>
+              <button id="place-rect">Create node</button>
+              <button id="create-link">Create edge</button>
+              <button id="delete-link">Delete edge</button>
+            </fieldset>
+          </div>
+
+          <fieldset id="selected-node">
+            <label>Label: <input type="text" id="selected-node-name" value="" placeholder="(optional)"></input></label>
+            <fieldset id="weight-sliders"></fieldset>
+            <fieldset><label><input id="constrain-weights" type="checkbox"/>Constrain incoming weights sum to 1.0</label></fieldset>
+            <fieldset>
+              <button id="save-node">Apply</button>
+              <button id="reset-node">Revert</button>
+              <button id="delete-rect">Delete</button>
+            </fieldset>
+          </fieldset>
+
+          <fieldset id="node-name">
+            <label>Label: <input  id="node-name-input" type="text" value="" placeholder="(optional)"></input></label>
+          </fieldset>
+          <fieldset id="link-weight">
+            <label>Weight: <input id="link-weight-input" type="range" step="0.001" min="0" max="1" value="1"></input></label>
+          </fieldset>
+            <button id="cancel">Cancel</button>
+          </fieldset>
+          <div id="message"></div>
+        </div>
+      </td>
+      <tr>
+        <td colspan="2">
+          <fieldset>
+            <button id="export">Save...</button>
+            <button id="import">Load...</button>
+          </fieldset>
+        </td>
+      </tr>
+    </table>
+
+    <script src="renderer.js"></script>
+    <script src="ui.js"></script>
+  </body>
+</html>
+
