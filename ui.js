@@ -17,25 +17,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-var canvasClientWidth = 0.0;
-var canvasClientHeight = 0.0;
-
 var showWeights = true;
+
+function setCanvasResizeCheckTimer(canvas_element)
+{
+  setInterval(function() {
+    // multiply canvas.height and canvas.width by window.devicePixelRatio if you want HDPI display support
+    if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight)
+    {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      redraw();
+    }
+  }, 300);
+}
 
 function redraw()
 {
-  // multiply canvas.height and canvas.width by window.devicePixelRatio if you want HDPI display support
-
-  if (Math.abs(canvasClientWidth - canvas.clientWidth) >= 1.0) {
-    canvasClientWidth = canvas.clientWidth;
-    canvas.width = Math.floor(canvasClientWidth);
-  }
-
-  if (Math.abs(canvasClientHeight - canvas.clientHeight) >= 1.0) {
-    canvasClientHeight = canvas.clientHeight;
-    canvas.height = Math.floor(canvasClientHeight);
-  }
-
   var ctx = canvas.getContext('2d');
   ctx.fillStyle = "#EEEEEE";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -229,6 +227,7 @@ function cancel()
 ////////////////////////////////////////////////////////////////////////////////
 
 var canvas = document.getElementById("main-canvas");
+setCanvasResizeCheckTimer(canvas);
 
 var rects = {};
 var Action = {

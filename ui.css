@@ -32,7 +32,7 @@ td h1, td h2 {
   width: 100%;
   height: 100%;
   display: block;
-  border: 1px solid grey;
+ /* border: 1px solid grey;*/
 }
 
 #controls { overflow: hidden; }
