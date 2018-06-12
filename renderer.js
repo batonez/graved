@@ -156,7 +156,6 @@ function segmentIntersectionBy4Points(
   if (lineIntersection.x > Math.max(seg2point1x, seg2point2x))
     return null;
 
-
   if (lineIntersection.y < Math.min(seg1point1y, seg1point2y))
     return null;
 

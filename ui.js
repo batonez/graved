@@ -91,8 +91,14 @@ function showMessage(text)
 function selectParentsRecursively(rect, deselect=false)
 {
   for (var i in rect["parents"]) {
-    rects[i]["selected"] = deselect ? 0 : 2;
-    selectParentsRecursively(rects[i], deselect);
+    var curRect = rects[i];
+    var visited = curRect["selected"] ? true : false;
+
+    if (visited !== deselect)
+      continue;
+
+    curRect["selected"] = deselect ? 0 : 2;
+    selectParentsRecursively(curRect, deselect);
   }
 }
 
@@ -287,7 +293,7 @@ canvas.onmousedown = function(e) {
       selectLinkParentKey = clickedRectKey;
     }
   } else if (action == Action.DRAG) {
-    if (clickedRect !== null) {
+    if (clickedRect) {
       willSelectNodeOnMouseUp = true;
       draggedRect = clickedRect;
       dragCorrectionX = mouse.x - draggedRect.x;
