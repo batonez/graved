@@ -80,8 +80,8 @@ function point(p, radius, color)
 function drawLineWithPointsOnIt(p1, p2)
 {
   wholeLine(p1, p2, 1, "#000000");
-  point(p1, 4, "#FF0000");
-  point(p2, 4, "#FF0000");
+  point(p1, 4, "#000000");
+  point(p2, 4, "#000000");
 }
 
 function drawArrow(fromx, fromy, tox, toy, color)
@@ -156,9 +156,25 @@ function drawRectName(rect, translation = {x: 0, y: 0})
   ctx.restore();
 }
 
+function drawSegment(p1, p2)
+{
+  ctx.strokeStyle = "#000000";
+  var savedLineWidth = ctx.lineWidth;
+  ctx.lineWidth = 3;
+  ctx.moveTo(p1.x, p1.y);
+  ctx.lineTo(p2.x, p2.y);
+  ctx.stroke();
+
+  ctx.restore();
+  ctx.lineWidth = savedLineWidth;
+}
+
 function drawSegmentAABB(p1, p2)
 {
+  var savedAlpha = ctx.globalAlpha;
   ctx.globalAlpha = 0.3;
+
+  ctx.fillStyle = "#0000FF";
   ctx.fillRect(
     Math.min(p1.x, p2.x),
     Math.min(p1.y, p2.y),
@@ -167,6 +183,8 @@ function drawSegmentAABB(p1, p2)
   );
 
   ctx.fill();
+
+  ctx.globalAlpha = savedAlpha;
   ctx.restore();
 }
 
