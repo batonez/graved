@@ -25,8 +25,8 @@ function setCanvasResizeCheckTimer(canvas_element)
     // multiply canvas.height and canvas.width by window.devicePixelRatio if you want HDPI display support
     if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight)
     {
-      canvas.width = canvas.clientWidth/* * window.devicePixelRatio*/;
-      canvas.height = canvas.clientHeight/* * window.devicePixelRatio*/;
+      canvas.width = canvas.clientWidth * window.devicePixelRatio;
+      canvas.height = canvas.clientHeight * window.devicePixelRatio;
       redraw();
     }
   }, 300);
@@ -35,7 +35,7 @@ function setCanvasResizeCheckTimer(canvas_element)
 function redraw()
 {
   var ctx = canvas.getContext('2d');
-  ctx.fillStyle = "#EEEEEE";
+  ctx.fillStyle = "#FFFFFF";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   for (var i in rects) {

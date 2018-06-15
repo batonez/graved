@@ -17,6 +17,59 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+function wholeLine(p1, p2, thickness, color)
+{
+  ctx.fillStyle = color;
+  ctx.lineWidth = thickness;
+  ctx.beginPath();
+
+  if (Math.abs(p1.x - p2.x) < 0.001) {
+    // line is vertical
+    ctx.moveTo(p1.x, 0);
+    ctx.lineTo(p1.x, foo.height);
+    ctx.stroke();
+    return;
+  }
+
+  var k = (p2.y - p1.y) / (p2.x - p1.x);
+  var b = (p2.x * p1.y - p1.x * p2.y) / (p2.x - p1.x);
+
+  var prev = {x: -1, y: -1};
+
+  for (var x = 0; x <= foo.width; x = x + 9) {
+    y = k*x + b;
+
+    if (y < 0 || y > foo.height)
+      continue;
+
+    if (prev.x >= 0 || prev.y >= 0) {
+      ctx.lineTo(x, y);
+    } else {
+      ctx.moveTo(x, y);
+    }
+
+    prev.x = x;
+    prev.y = y;
+  }
+
+  ctx.stroke();
+}
+
+function point(p, radius, color)
+{
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, radius, 0, 2 * Math.PI);
+  ctx.fill();
+}
+
+function drawLineWithPointsOnIt(p1, p2)
+{
+  wholeLine(p1, p2, 1, "#000000");
+  point(p1, 4, "#FF0000");
+  point(p2, 4, "#FF0000");
+}
+
 function drawArrow(ctx, fromx, fromy, tox, toy)
 {
   //variables to be used when creating the arrow
@@ -82,6 +135,19 @@ function drawRectName(ctx, rect, translation = {x: 0, y: 0})
   ctx.textAlign = "center";
   ctx.textBaseline = "bottom";
   ctx.fillText(rect.text, rect.x + translation.x, rect.y - rect.height/2 + translation.y);
+}
+
+function drawSegmentAABB(p1, p2)
+{
+  ctx.globalAlpha = 0.3;
+  ctx.fillRect(
+    Math.min(p1.x, p2.x),
+    Math.min(p1.y, p2.y),
+    Math.abs(p1.x - p2.x),
+    Math.abs(p1.y - p2.y)
+  );
+
+  ctx.fill();
 }
 
 function lineIntersectionBy4Points(
