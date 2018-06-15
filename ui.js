@@ -25,8 +25,8 @@ function setCanvasResizeCheckTimer(canvas_element)
     // multiply canvas.height and canvas.width by window.devicePixelRatio if you want HDPI display support
     if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight)
     {
-      canvas.width = canvas.clientWidth * window.devicePixelRatio;
-      canvas.height = canvas.clientHeight * window.devicePixelRatio;
+      canvas.width = canvas.clientWidth /** window.devicePixelRatio*/;
+      canvas.height = canvas.clientHeight/* * window.devicePixelRatio*/;
       redraw();
     }
   }, 300);
@@ -34,22 +34,20 @@ function setCanvasResizeCheckTimer(canvas_element)
 
 function redraw()
 {
-  var ctx = canvas.getContext('2d');
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  clear();
 
   for (var i in rects) {
     var parents = rects[i].parents;
 
     for (var pKey in parents)
-      drawArrowBetweenRects(ctx, rects[i], rects[pKey], rects[i]["parents"][pKey], showWeights, translation);
+      drawArrowBetweenRects(rects[i], rects[pKey], rects[i]["parents"][pKey], showWeights, translation);
 
-    drawRect(ctx, rects[i], i, translation);
+    drawRect(rects[i], i, translation);
     prev = i;
   }
 
   for (var i in rects) {
-    drawRectName(ctx, rects[i], translation);
+    drawRectName(rects[i], translation);
   }
 }
 
@@ -233,6 +231,7 @@ function cancel()
 ////////////////////////////////////////////////////////////////////////////////
 
 var canvas = document.getElementById("main-canvas");
+initGeometry(canvas.getContext("2d"));
 setCanvasResizeCheckTimer(canvas);
 
 var rects = {};
